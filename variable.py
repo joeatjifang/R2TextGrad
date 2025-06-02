@@ -1,17 +1,17 @@
 from textgrad import logger
 from textgrad.engine import EngineLM
-from typing import List, Set, Dict
+from typing import List, Set, Dict, Optional
 import httpx
 from collections import defaultdict
 from functools import partial
 from .config import SingletonBackwardEngine
 from .utils.image_utils import is_valid_url
-from typing import Union
+from .defaults import DEFAULT_ROLE_DESCRIPTION
 
 class Variable:
     def __init__(
         self,
-        value: Union[str, bytes] = "",
+        value: str = "",
         image_path: str = "",
         predecessors: List['Variable']=None,
         requires_grad: bool=True,
@@ -61,7 +61,7 @@ class Variable:
         self.gradients: Set[Variable] = set()
         self.gradients_context: Dict[Variable, str] = defaultdict(lambda: None)
         self.grad_fn = None
-        self.role_description = role_description
+        self.role_description = role_description or DEFAULT_ROLE_DESCRIPTION
         self.predecessors = set(predecessors)
         self.requires_grad = requires_grad
         self._reduce_meta = []
@@ -354,4 +354,3 @@ def _backward_idempotent(variables: List[Variable], summation: Variable, backwar
 
         variable.gradients.add(Variable(value=variable_gradient_value, 
                                         role_description=f"feedback to {variable.get_role_description()}"))
-        

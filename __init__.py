@@ -1,7 +1,5 @@
 import os
 
-__version__ = "0.1.8"
-
 from .variable import Variable
 from .loss import TextLoss
 from .model import BlackboxLLM

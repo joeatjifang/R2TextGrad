@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List, Optional
 from textgrad.variable import Variable
 from textgrad.autograd import LLMCall
 from textgrad.autograd.function import Module
@@ -49,4 +49,13 @@ class BlackboxLLM(Module):
         :rtype: Variable
         """
         return self.llm_call(x)
+
+    def generate(
+        self,
+        prompt: str,
+        max_tokens: Optional[int] = None,
+        temperature: float = 0.7,
+        stop: Optional[List[str]] = None
+    ) -> str:
+        raise NotImplementedError
 
