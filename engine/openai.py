@@ -12,9 +12,9 @@ from tenacity import (
     stop_after_attempt,
     wait_random_exponential,
 )
-from typing import List, Union
+from typing import List, Union, Optional
 
-from .base import EngineLM, CachedEngine
+from .base import EngineLM
 from .engine_utils import get_image_type_from_bytes
 
 # Default base URL for OLLAMA
@@ -24,15 +24,19 @@ OLLAMA_BASE_URL = 'http://localhost:11434/v1'
 if os.getenv("OLLAMA_BASE_URL"):
     OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
 
-class ChatOpenAI(EngineLM, CachedEngine):
+class ChatOpenAI(EngineLM):
     DEFAULT_SYSTEM_PROMPT = "You are a helpful, creative, and smart assistant."
 
     def __init__(
         self,
-        model_string: str="gpt-3.5-turbo-0613",
-        system_prompt: str=DEFAULT_SYSTEM_PROMPT,
-        is_multimodal: bool=False,
-        base_url: str=None,
+        model_string: str = "gpt-4",
+        temperature: float = 0.7,
+        max_tokens: Optional[int] = None,
+        cache_dir: Optional[str] = None,
+        seed: Optional[int] = None,
+        system_prompt: str = DEFAULT_SYSTEM_PROMPT,
+        is_multimodal: bool = False,
+        base_url: str = None,
         **kwargs):
         """
         :param model_string:
@@ -42,10 +46,11 @@ class ChatOpenAI(EngineLM, CachedEngine):
         root = platformdirs.user_cache_dir("textgrad")
         cache_path = os.path.join(root, f"cache_openai_{model_string}.db")
 
-        super().__init__(cache_path=cache_path)
+        super().__init__(cache_path=cache_path, model_string=model_string, temperature=temperature, max_tokens=max_tokens, cache_dir=cache_dir)
 
         self.system_prompt = system_prompt
         self.base_url = base_url
+        self.seed = seed
         
         if not base_url:
             if os.getenv("OPENAI_API_KEY") is None:
