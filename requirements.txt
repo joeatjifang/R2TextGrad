@@ -1,0 +1,8 @@
+openai>=1.23.6
+pandas>=1.5.3
+litellm>=1.49.5
+scikit-learn>=1.0.0
+numpy>=1.21.0
+pillow
+httpx
+textgrad>=1.0.0
