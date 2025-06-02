@@ -1,6 +1,6 @@
 from optimizer import R2TextualGradientDescent
 from variable import Variable
-from engine.anthropic import ChatAnthropic
+from engine.anthropic import ChatAnthropic  # Assuming this exists
 
 def main():
     # Initialize the prompt to be optimized
