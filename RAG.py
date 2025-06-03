@@ -302,7 +302,7 @@ def main():
     
     year_list = ['2017', '2018', '2019', '2020', '2021']
     for year in tqdm(year_list):
-        data_path = 'RawData/Management_Discussion_Analysis/MDA_ALL/External_MDA_ALL/' + year + '/text/'
+        data_path = 'ANNUAL_REPORT_PATH/' + year + '/text/'
         files = os.listdir(data_path)
         files_sorted = [file for file in files if '-12-31' in file]
         for file in files_sorted:
