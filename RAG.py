@@ -192,6 +192,18 @@ class RAGPromptGenerator:
         self.embedding_client = OpenAIEmbeddingClient()
         self.load_knowledge_base()
 
+    def load_knowledge_base(self):
+        """Load knowledge base from disk and build embeddings index"""
+        kb_path = os.path.join(self.knowledge_base_dir, f"{self.company}_{self.year}_knowledge_base.json")
+        if os.path.exists(kb_path):
+            with open(kb_path, 'r', encoding='utf-8') as f:
+                self.documents = json.load(f)
+            self._build_embeddings_index()
+        else:
+            print(f"Knowledge base file not found: {kb_path}")
+            self.documents = []
+            self.embeddings = None
+
     def _build_embeddings_index(self):
         """Build embedding vector index for fast retrieval"""
         if not self.documents:
