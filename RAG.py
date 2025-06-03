@@ -9,6 +9,7 @@ from engine import get_engine
 from engine.openai import ChatOpenAI
 from engine.deepseek import ChatDeepSeek
 import json
+from engine.openai import OpenAIEmbedding
 
 class OpenAIEmbeddingClient:
     def __init__(self, model_string: str = "text-embedding-ada-002"):
@@ -23,11 +24,9 @@ class OpenAIEmbeddingClient:
     def get_embedding(self, text: str) -> List[float]:
         """Get text embeddings"""
         try:
-            response = self.engine.client.embeddings.create(
-                model=self.model,
-                input=[text]
-            )
-            return response.data[0].embedding
+            # Use the embedding method from the engine module directly
+            embedding = self.engine.get_embedding(text, model=self.model)
+            return embedding
         except Exception as e:
             print(f"Failed to get embedding: {e}")
             raise
