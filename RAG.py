@@ -322,13 +322,5 @@ def main():
     # Generate response
     response = engine.generate("What is quantum computing?")
 
-    # Or use it with the optimizer
-    optimizer = R2TextualGradientDescent(
-        parameters=[prompt_var],
-        engine=engine,
-        num_trials=5,
-        gradient_memory=3
-    )
-
 if __name__ == '__main__':
     main()
