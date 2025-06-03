@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from optimizer import R2TextualGradientDescent
-from textgrad.variable import Variable
+from variable import Variable
 
 class MockEngine:
     def __call__(self, prompt, system_prompt=None):

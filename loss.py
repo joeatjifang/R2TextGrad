@@ -1,8 +1,8 @@
-from textgrad.engine import EngineLM, get_engine
-from textgrad.variable import Variable
+from engine import EngineLM, get_engine
+from variable import Variable
 from typing import List, Union
-from textgrad.autograd import LLMCall, FormattedLLMCall, OrderedFieldsMultimodalLLMCall
-from textgrad.autograd import Module
+from optimizer.autograd import LLMCall
+from optimizer.autograd import Module
 from .config import SingletonBackwardEngine
 
 

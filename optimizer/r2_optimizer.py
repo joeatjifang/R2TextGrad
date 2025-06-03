@@ -2,9 +2,9 @@ from typing import List, Union
 from collections import defaultdict
 import numpy as np
 from sklearn.linear_model import LogisticRegression
-from textgrad.variable import Variable
-from textgrad.engine import EngineLM
-from textgrad.config import validate_engine_or_get_default
+from variable import Variable
+from engine import EngineLM
+from config import validate_engine_or_get_default
 from .optimizer import Optimizer, get_gradient_and_context_text
 from .optimizer_prompts import construct_tgd_prompt, OPTIMIZER_SYSTEM_PROMPT
 
