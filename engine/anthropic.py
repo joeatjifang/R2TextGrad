@@ -12,25 +12,22 @@ from tenacity import (
 )
 import base64
 import json
-from typing import List, Union, Optional
-from .base import EngineLM
+from typing import List, Union
+from .base import EngineLM, CachedEngine
 from .engine_utils import get_image_type_from_bytes
 
-class ChatAnthropic(EngineLM):
+class ChatAnthropic(EngineLM, CachedEngine):
     SYSTEM_PROMPT = "You are a helpful, creative, and smart assistant."
 
     def __init__(
         self,
-        model_string: str = "claude-3-sonnet-20240229",
-        temperature: float = 0.7,
-        max_tokens: Optional[int] = None,
-        cache_dir: Optional[str] = None,
+        model_string: str="claude-3-opus-20240229",
         system_prompt: str=SYSTEM_PROMPT,
         is_multimodal: bool=False,
     ):
         root = platformdirs.user_cache_dir("textgrad")
         cache_path = os.path.join(root, f"cache_anthropic_{model_string}.db")
-        super().__init__(cache_path=cache_path, model_string=model_string, temperature=temperature, max_tokens=max_tokens, cache_dir=cache_dir)
+        super().__init__(cache_path=cache_path)
         if os.getenv("ANTHROPIC_API_KEY") is None:
             raise ValueError("Please set the ANTHROPIC_API_KEY environment variable if you'd like to use Anthropic models.")
         
