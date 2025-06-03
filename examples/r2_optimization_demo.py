@@ -5,14 +5,14 @@ from engine.anthropic import ChatAnthropic
 def main():
     # Initialize the prompt to be optimized
     initial_prompt = """
-    Given a text, analyze its sentiment and classify it as positive or negative.
+    Given a text of patent, analyze whether it is substantial innovation and classify it as positive or negative.
     Provide your answer as 'positive' or 'negative' only.
     """
 
     # Create variable
     prompt_var = Variable(
         value=initial_prompt,
-        role_description="Sentiment analysis prompt optimization"
+        role_description="innovation analysis prompt optimization"
     )
 
     # Initialize optimizer with Claude engine
@@ -25,7 +25,7 @@ def main():
 
     # Example constraints
     constraints = [
-        "Must maintain focus on sentiment analysis",
+        "Must maintain focus on innovation analysis",
         "Output format must remain 'positive' or 'negative'"
     ]
 
