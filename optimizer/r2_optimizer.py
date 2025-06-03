@@ -1,7 +1,7 @@
 from typing import List, Union
 from collections import defaultdict
 import numpy as np
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 from variable import Variable
 from engine import EngineLM
 from config import validate_engine_or_get_default
@@ -44,12 +44,12 @@ class R2TextualGradientDescent(Optimizer):
             X = np.array(responses).reshape(-1, 1)
             y = np.array(labels).astype(int)
             
-            # Fit logistic regression
-            lr = LogisticRegression()
+            # Fit regression
+            lr = LinearRegression()
             lr.fit(X, y)
             
             # Calculate R-squared
-            y_pred = lr.predict_proba(X)[:, 1]
+            y_pred = lr.predict(X)[:, 1]
             r2 = np.corrcoef(y, y_pred)[0,1] ** 2
             return float(r2)
         except:

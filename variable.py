@@ -1,11 +1,9 @@
-from textgrad import logger
-from textgrad.engine import EngineLM
+from engine import EngineLM
 from typing import List, Set, Dict, Optional
 import httpx
 from collections import defaultdict
 from functools import partial
 from .config import SingletonBackwardEngine
-from .utils.image_utils import is_valid_url
 from .defaults import DEFAULT_ROLE_DESCRIPTION
 
 class Variable:
@@ -49,14 +47,7 @@ class Variable:
         if value != "" and image_path != "":
             raise ValueError("Please provide either a value or an image path for the variable, not both.")
 
-        if image_path != "":
-            if is_valid_url(image_path):
-                self.value = httpx.get(image_path).content
-            else:
-                with open(image_path, 'rb') as file:
-                    self.value = file.read()
-        else:
-            self.value = value
+        self.value = value
             
         self.gradients: Set[Variable] = set()
         self.gradients_context: Dict[Variable, str] = defaultdict(lambda: None)
@@ -306,7 +297,6 @@ def _check_and_reduce_gradients(variable: Variable, backward_engine: EngineLM) -
     # For each reduction group, perform the reduction operation
     new_gradients = set()
     for group_id, gradients in id_to_gradient_set.items():
-        logger.info(f"Reducing gradients for group {group_id}", extra={"gradients": gradients})
         new_gradients.add(id_to_op[group_id](gradients, backward_engine))
     
     return new_gradients
@@ -340,9 +330,7 @@ def _backward_idempotent(variables: List[Variable], summation: Variable, backwar
             variable_gradient_value = ""
         else:
             variable_gradient_value = f"Here is the combined feedback we got for this specific {variable.get_role_description()} and other variables: {summation_gradients}."
-            
-        logger.info(f"Idempotent backward", extra={"v_gradient_value": variable_gradient_value, 
-                                                   "summation_role": summation.get_role_description()})
+        
 
         var_gradients = Variable(value=variable_gradient_value, 
                                  role_description=f"feedback to {variable.get_role_description()}")
