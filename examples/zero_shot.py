@@ -1,6 +1,6 @@
 from optimizer import R2TextualGradientDescent
 from variable import Variable
-from engine.deepseek import ChatDeepSeek
+from engine.deepseek import ChatDeepSeek # You can choose deepseek or llama
 
 # Example patent text and product name
 PATENT_TEXT = """
